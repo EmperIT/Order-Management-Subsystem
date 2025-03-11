@@ -8,7 +8,7 @@ import {
   LoginDto,
   LoginResponse,
   RefreshTokenDto
-} from '@app/common';
+} from '../auth';
 import { ClientGrpc } from '@nestjs/microservices';
 import { AUTH_SERVICE } from './constants';
 import { lastValueFrom } from 'rxjs';

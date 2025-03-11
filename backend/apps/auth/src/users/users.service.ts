@@ -10,7 +10,7 @@ import {
   LoginDto,
   LoginResponse,
   RefreshTokenDto,
-} from '@app/common';
+} from '../auth';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';

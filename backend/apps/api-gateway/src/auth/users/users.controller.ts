@@ -16,7 +16,7 @@ import {
   UpdateUserDto,
   LoginDto,
   RefreshTokenDto
-} from '@app/common';
+} from '../auth';
 import { AuthGuard } from '@nestjs/passport';
 import { catchError} from 'rxjs';
 @Controller('users')

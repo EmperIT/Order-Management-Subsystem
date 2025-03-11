@@ -1,5 +1,5 @@
 import { RpcException } from '@nestjs/microservices';
-import { CreateUserDto, UpdateUserDto, LoginDto, RefreshTokenDto } from '@app/common';
+import { CreateUserDto, UpdateUserDto, LoginDto, RefreshTokenDto } from '../auth';
 
 export const validateCreateUser = (createUserDto: CreateUserDto) => {
   if (!createUserDto.username || createUserDto.username.trim() === '') {

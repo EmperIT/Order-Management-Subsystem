@@ -10,7 +10,7 @@ import {
   LoginResponse,
   RefreshTokenDto,
   UsersServiceControllerMethods,
-} from '@app/common';
+} from '../auth';
 
 @Controller()
 @UsersServiceControllerMethods()
