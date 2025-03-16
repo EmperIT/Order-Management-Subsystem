@@ -11,21 +11,16 @@ import {
   HttpException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import {
-  CreateUserDto,
-  UpdateUserDto,
-  LoginDto,
-  RefreshTokenDto
-} from '../auth';
+import { Auth } from '@app/common';
 import { AuthGuard } from '@nestjs/passport';
-import { catchError} from 'rxjs';
+import { catchError } from 'rxjs';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
   @UseGuards(AuthGuard('jwt'))
-  create(@Body() createUserDto: CreateUserDto) {
+  create(@Body() createUserDto: Auth.CreateUserDto) {
     return this.usersService.create(createUserDto).pipe(
       catchError((val) => {
         throw new HttpException(val.message, 400);
@@ -55,7 +50,7 @@ export class UsersController {
 
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  update(@Param('id') id: string, @Body() updateUserDto: Auth.UpdateUserDto) {
     return this.usersService.update(id, updateUserDto).pipe(
       catchError((val) => {
         throw new HttpException(val.message, 400);
@@ -74,7 +69,7 @@ export class UsersController {
   }
 
   @Post('login')
-  async login(@Body() loginDto: LoginDto) {
+  async login(@Body() loginDto: Auth.LoginDto) {
     try {
       return await this.usersService.login(loginDto);
     } catch (val) {
@@ -83,7 +78,7 @@ export class UsersController {
   }
 
   @Post('refresh')
-  async refreshToken(@Body() refreshTokenDto: RefreshTokenDto) {
+  async refreshToken(@Body() refreshTokenDto: Auth.RefreshTokenDto) {
     try {
       return await this.usersService.refreshToken(refreshTokenDto);
     } catch (val) {

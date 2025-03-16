@@ -2,13 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { RpcException } from '@nestjs/microservices';
-import {
-  Dish,
-  CreateDishDto,
-  UpdateDishDto,
-  PaginationDto,
-  Dishes
-} from './menu';
+import { Menu } from '@app/common';
 
 interface DishDocument {
   _id: string;
@@ -23,9 +17,11 @@ interface DishDocument {
 
 @Injectable()
 export class MenuService {
-  constructor(@InjectModel('Dish') private readonly dishModel: Model<DishDocument>) {}
+  constructor(
+    @InjectModel('Dish') private readonly dishModel: Model<DishDocument>,
+  ) {}
 
-  async create(createDishDto: CreateDishDto): Promise<Dish> {
+  async create(createDishDto: Menu.CreateDishDto): Promise<Menu.Dish> {
     const dish = new this.dishModel({
       ...createDishDto,
       createdAt: new Date(),
@@ -35,7 +31,7 @@ export class MenuService {
     return this.mapToDish(dish);
   }
 
-  async findAll(paginationDto: PaginationDto): Promise<Dishes> {
+  async findAll(paginationDto: Menu.PaginationDto): Promise<Menu.Dishes> {
     const { page, limit } = paginationDto;
     const skip = (page - 1) * limit;
     const dish = await this.dishModel.find().skip(skip).limit(limit).exec();
@@ -43,18 +39,27 @@ export class MenuService {
     return { dishes: dish.map(this.mapToDish), total };
   }
 
-  async findOne(id: string): Promise<Dish> {
+  async findOne(id: string): Promise<Menu.Dish> {
     const dish = await this.dishModel.findById(id).exec();
     if (!dish) {
-      throw new RpcException({ statusCode: 404, message: `Không tìm thấy món ăn với id ${id}` });
+      throw new RpcException({
+        statusCode: 404,
+        message: `Không tìm thấy món ăn với id ${id}`,
+      });
     }
     return this.mapToDish(dish);
   }
 
-  async update(id: string, updateDishDto: UpdateDishDto): Promise<Dish> {
+  async update(
+    id: string,
+    updateDishDto: Menu.UpdateDishDto,
+  ): Promise<Menu.Dish> {
     const dish = await this.dishModel.findById(id).exec();
     if (!dish) {
-      throw new RpcException({ statusCode: 404, message: `Không tìm thấy món ăn với id ${id}` });
+      throw new RpcException({
+        statusCode: 404,
+        message: `Không tìm thấy món ăn với id ${id}`,
+      });
     }
     Object.assign(dish, updateDishDto);
     dish.updatedAt = new Date();
@@ -62,15 +67,18 @@ export class MenuService {
     return this.mapToDish(dish);
   }
 
-  async remove(id: string): Promise<Dish> {
+  async remove(id: string): Promise<Menu.Dish> {
     const dish = await this.dishModel.findByIdAndDelete(id).exec();
     if (!dish) {
-      throw new RpcException({ statusCode: 404, message: `Không tìm thấy món ăn với id ${id}` });
+      throw new RpcException({
+        statusCode: 404,
+        message: `Không tìm thấy món ăn với id ${id}`,
+      });
     }
     return this.mapToDish(dish);
   }
 
-  private mapToDish(dish: DishDocument): Dish {
+  private mapToDish(dish: DishDocument): Menu.Dish {
     return {
       id: dish._id.toString(),
       name: dish.name,

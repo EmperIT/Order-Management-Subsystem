@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MenuController } from './menu.controller';
-import { MenuService } from './menu.service';
-import { MENU_SERVICE } from './constants';
-import { Menu } from '@app/common';
+import { OrderController } from './order.controller';
+import { OrderService } from './order.service';
+import { ORDER_SERVICE } from './constants';
+import { Order } from '@app/common';
 import { join } from 'path';
 
 @Module({
@@ -12,22 +12,23 @@ import { join } from 'path';
     ConfigModule.forRoot({ isGlobal: true }),
     ClientsModule.registerAsync([
       {
-        name: MENU_SERVICE,
+        name: ORDER_SERVICE,
         imports: [ConfigModule],
         useFactory: (configService: ConfigService) => ({
           transport: Transport.GRPC,
           options: {
             url:
-              configService.get<string>('MENU_SERVICE_URL') || 'localhost:5000',
-            package: Menu.MENU_PACKAGE_NAME,
-            protoPath: join(__dirname, '../menu.proto'),
+              configService.get<string>('ORDER_SERVICE_URL') ||
+              'localhost:5000',
+            package: Order.ORDER_PACKAGE_NAME,
+            protoPath: join(__dirname, '../order.proto'),
           },
         }),
         inject: [ConfigService],
       },
     ]),
   ],
-  controllers: [MenuController],
-  providers: [MenuService],
+  controllers: [OrderController],
+  providers: [OrderService],
 })
-export class MenuModule {}
+export class OrderModule {}

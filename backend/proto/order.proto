@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+package order;
+
+service OrderService {
+  // Order
+  rpc CreateOrder (CreateOrderDto) returns (Order) {}
+  rpc FindAllOrders (PaginationDto) returns (Orders) {}
+  rpc FindOneOrder (FindOneOrderDto) returns (Order) {}
+  rpc UpdateOrder (UpdateOrderDto) returns (Order) {}
+
+  // OrderItem
+  rpc CreateOrderItem (CreateOrderItemDto) returns (OrderItem) {}
+  rpc FindAllOrderItemsByOrderId (FindAllOrderItemsByOrderIdDto) returns (OrderItems) {}
+  rpc FindOneOrderItem (FindOneOrderItemDto) returns (OrderItem) {}
+  rpc UpdateOrderItem (UpdateOrderItemDto) returns (OrderItem) {}
+  rpc RemoveOrderItem (FindOneOrderItemDto) returns (OrderItem) {}
+
+}
+
+/* --- ORDER DTOs --- */
+message CreateOrderDto {
+  string tableId = 1;
+  double total = 2;
+  string status = 3; // pending | paid
+}
+
+message UpdateOrderDto {
+  string id = 1;
+  string tableId = 2;
+  double total = 3;
+  string status = 4; // pending | paid
+}
+
+message FindAllOrderItemsByOrderIdDto{
+  string orderId = 1;
+}
+
+message FindOneOrderDto {
+  string id = 1;
+}
+
+message Order {
+  string id = 1;
+  string tableId = 2;
+  repeated OrderItem items = 3;
+  double total = 4;
+  string status = 5;
+  string createdAt = 6;
+  string updatedAt = 7;
+}
+
+message Orders {
+  repeated Order orders = 1;
+  int32 total = 2;
+}
+
+/* --- ORDER ITEM DTOs --- */
+message CreateOrderItemDto {
+  string orderId = 1;
+  string dishId = 2;
+  int32 quantity = 3;
+  string note = 4;
+  string status = 5; // in_progress | finalized
+}
+
+message UpdateOrderItemDto {
+  string id = 1;
+  string orderId = 2;
+  string dishId = 3;
+  int32 quantity = 4;
+  string note = 5;
+  string status = 6;
+}
+
+message FindOneOrderItemDto {
+  string id = 1;
+}
+
+message OrderItem {
+  string id = 1;
+  string orderId = 2;
+  string dishId = 3;
+  string dishName = 4;
+  int32 price = 5;
+  int32 quantity = 6;
+  string note = 7;
+  string status = 8;
+  string createdAt = 9;
+  string updatedAt = 10;
+}
+
+message OrderItems {
+  repeated OrderItem items = 1;
+  int32 total = 2;
+}
+
+/* --- COMMON --- */
+message PaginationDto {
+  int32 page = 1;
+  int32 limit = 2;
+}

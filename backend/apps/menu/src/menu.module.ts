@@ -4,7 +4,6 @@ import { MenuController } from './menu.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DishSchema } from './schemas/dishes.schema';
-import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [

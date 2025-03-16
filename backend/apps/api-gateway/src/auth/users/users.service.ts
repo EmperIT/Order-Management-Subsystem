@@ -1,34 +1,26 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
-import {
-  CreateUserDto,
-  UpdateUserDto,
-  USERS_SERVICE_NAME,
-  UsersServiceClient,
-  PaginationDto,
-  LoginDto,
-  LoginResponse,
-  RefreshTokenDto
-} from '../auth';
+import { Auth } from '@app/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { AUTH_SERVICE } from './constants';
 import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class UsersService implements OnModuleInit {
-  private usersService: UsersServiceClient;
+  private usersService: Auth.UsersServiceClient;
 
   constructor(@Inject(AUTH_SERVICE) private client: ClientGrpc) {}
 
   onModuleInit() {
-    this.usersService =
-      this.client.getService<UsersServiceClient>(USERS_SERVICE_NAME);
+    this.usersService = this.client.getService<Auth.UsersServiceClient>(
+      Auth.USERS_SERVICE_NAME,
+    );
   }
 
-  create(createUserDto: CreateUserDto) {
+  create(createUserDto: Auth.CreateUserDto) {
     return this.usersService.createUser(createUserDto);
   }
 
-  findAll(paginationDto: PaginationDto) {
+  findAll(paginationDto: Auth.PaginationDto) {
     return this.usersService.findAllUsers(paginationDto);
   }
 
@@ -36,7 +28,7 @@ export class UsersService implements OnModuleInit {
     return this.usersService.findOneUser({ id });
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
+  update(id: string, updateUserDto: Auth.UpdateUserDto) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id: _, ...updateData } = updateUserDto;
     return this.usersService.updateUser({ id, ...updateData });
@@ -46,7 +38,7 @@ export class UsersService implements OnModuleInit {
     return this.usersService.removeUser({ id });
   }
 
-  login(loginDto: LoginDto): Promise<LoginResponse> {
+  login(loginDto: Auth.LoginDto): Promise<Auth.LoginResponse> {
     return lastValueFrom(this.usersService.login(loginDto)).then((response) => {
       if (!response) {
         throw new Error('Login response is undefined');
@@ -55,7 +47,9 @@ export class UsersService implements OnModuleInit {
     });
   }
 
-  refreshToken(refreshTokenDto: RefreshTokenDto): Promise<LoginResponse> {
+  refreshToken(
+    refreshTokenDto: Auth.RefreshTokenDto,
+  ): Promise<Auth.LoginResponse> {
     return lastValueFrom(this.usersService.refreshToken(refreshTokenDto)).then(
       (response) => {
         if (!response) {

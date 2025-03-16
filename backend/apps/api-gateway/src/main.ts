@@ -8,7 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   const gateway = configService.get<number>('GATEWAY') || 3000;
-  console.log("Running API-Gateway on port: ", gateway);
+  console.log('Running API-Gateway on port: ', gateway);
   app.useGlobalFilters(new HttpExceptionFilter(), new NotFoundFilter());
   await app.listen(gateway);
 }

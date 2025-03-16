@@ -1,28 +1,28 @@
 import { NestFactory } from '@nestjs/core';
-import { MenuModule } from './menu.module';
+import { OrderModule } from './order.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
-import { Menu } from '@app/common';
+import { Order } from '@app/common';
 import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   // Tạo một ApplicationContext tạm thời để lấy ConfigService
-  const appContext = await NestFactory.createApplicationContext(MenuModule);
+  const appContext = await NestFactory.createApplicationContext(OrderModule);
   const configService = appContext.get(ConfigService);
   const grpcPort =
-    configService.get<number>('MENU_SERVICE_URL') || 'localhost:5000';
-  console.log('Running Menu Service on port: ', grpcPort);
+    configService.get<number>('ORDER_SERVICE_URL') || 'localhost:5000';
+  console.log('Running Order Service on port: ', grpcPort);
   await appContext.close(); // Đóng context tạm thời
 
   // Sử dụng giá trị port lấy được trong cấu hình gRPC
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    MenuModule,
+    OrderModule,
     {
       transport: Transport.GRPC,
       options: {
         url: `${grpcPort}`,
-        protoPath: join(__dirname, '../menu.proto'),
-        package: Menu.MENU_PACKAGE_NAME,
+        protoPath: join(__dirname, '../order.proto'),
+        package: Order.ORDER_PACKAGE_NAME,
       },
     },
   );

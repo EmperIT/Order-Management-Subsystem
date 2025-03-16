@@ -1,37 +1,30 @@
-import { Controller} from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { MenuService } from './menu.service';
-import {
-  MenuServiceController,
-  CreateDishDto,
-  UpdateDishDto,
-  FindOneDishDto,
-  PaginationDto,
-  MenuServiceControllerMethods,
-} from './menu';
+import { Menu } from '@app/common';
 
 @Controller()
-@MenuServiceControllerMethods()
-export class MenuController implements MenuServiceController {
+@Menu.MenuServiceControllerMethods()
+export class MenuController implements Menu.MenuServiceController {
   constructor(private readonly menuService: MenuService) {}
 
-  createDish(createDishDto: CreateDishDto) {
+  createDish(createDishDto: Menu.CreateDishDto) {
     console.log('createDishDto', createDishDto);
     return this.menuService.create(createDishDto);
   }
 
-  findAllDishes(paginationDto: PaginationDto) {
+  findAllDishes(paginationDto: Menu.PaginationDto) {
     return this.menuService.findAll(paginationDto);
   }
 
-  findOneDish(findOneDishDto: FindOneDishDto) {
+  findOneDish(findOneDishDto: Menu.FindOneDishDto) {
     return this.menuService.findOne(findOneDishDto.id);
   }
 
-  updateDish(updateDishDto: UpdateDishDto) {
+  updateDish(updateDishDto: Menu.UpdateDishDto) {
     return this.menuService.update(updateDishDto.id, updateDishDto);
   }
 
-  removeDish(findOneDishDto: FindOneDishDto) {
+  removeDish(findOneDishDto: Menu.FindOneDishDto) {
     return this.menuService.remove(findOneDishDto.id);
   }
 }

@@ -4,12 +4,12 @@ import { UsersController } from './users.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AUTH_SERVICE } from './constants';
-import { AUTH_PACKAGE_NAME } from '../auth';
+import { Auth } from '@app/common';
 import { join } from 'path';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal : true }),
+    ConfigModule.forRoot({ isGlobal: true }),
     ClientsModule.registerAsync([
       {
         name: AUTH_SERVICE,
@@ -17,8 +17,9 @@ import { join } from 'path';
         useFactory: (configService: ConfigService) => ({
           transport: Transport.GRPC,
           options: {
-            url: configService.get<string>('AUTH_SERVICE_URL') || 'localhost:5000',
-            package: AUTH_PACKAGE_NAME,
+            url:
+              configService.get<string>('AUTH_SERVICE_URL') || 'localhost:5000',
+            package: Auth.AUTH_PACKAGE_NAME,
             protoPath: join(__dirname, '../auth.proto'),
           },
         }),

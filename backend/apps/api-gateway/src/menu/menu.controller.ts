@@ -1,10 +1,18 @@
-import { Controller, Post, Get, Patch, Delete, Body, Param, Query, UseGuards, HttpException } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Patch,
+  Delete,
+  Body,
+  Param,
+  Query,
+  HttpException,
+} from '@nestjs/common';
 import { MenuService } from './menu.service';
-import { AuthGuard } from '@nestjs/passport';
 import { catchError } from 'rxjs';
 
 @Controller('menu')
-@UseGuards(AuthGuard('jwt')) // Bảo vệ tất cả các route bằng JWT
 export class MenuController {
   constructor(private readonly menuService: MenuService) {}
 
@@ -25,7 +33,6 @@ export class MenuController {
       }),
     );
   }
-  
 
   @Get(':id')
   findOne(@Param('id') id: string) {
