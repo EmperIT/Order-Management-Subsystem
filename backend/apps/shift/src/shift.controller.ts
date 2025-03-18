@@ -1,12 +1,29 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { ShiftService } from './shift.service';
+import { Shift } from '@app/common';
 
 @Controller()
-export class ShiftController {
+@Shift.ShiftServiceControllerMethods()
+export class ShiftController implements Shift.ShiftServiceController {
   constructor(private readonly shiftService: ShiftService) {}
 
-  @Get()
-  getHello(): string {
-    return this.shiftService.getHello();
+  createShift(createShiftDto: Shift.CreateShiftDto) {
+    return this.shiftService.create(createShiftDto);
+  }
+
+  findShiftsByTimeRange(findShiftsByTimeRangeDto: Shift.FindShiftsByTimeRangeDto) {
+    return this.shiftService.findByTimeRange(findShiftsByTimeRangeDto);
+  }
+
+  findOneShift(findOneShiftDto: Shift.FindOneShiftDto) {
+    return this.shiftService.findOne(findOneShiftDto.id);
+  }
+
+  updateShift(updateShiftDto: Shift.UpdateShiftDto) {
+    return this.shiftService.update(updateShiftDto.id, updateShiftDto);
+  }
+
+  validateSecretKey(validateSecretKeyDto: Shift.ValidateSecretKeyDto) {
+    return this.shiftService.validateSecretKey(validateSecretKeyDto);
   }
 }

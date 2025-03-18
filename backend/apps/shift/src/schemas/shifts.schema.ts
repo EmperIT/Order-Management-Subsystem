@@ -19,11 +19,6 @@ export const ShiftSchema = new Schema(
         required: true,
         unique: true 
       },
-      managerIds: [{ 
-        type: Schema.Types.ObjectId, 
-        ref: 'User',
-        required: true
-      }],
       isActive: { 
         type: Boolean, 
         default: true

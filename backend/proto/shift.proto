@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package shift;
+
+service ShiftService {
+  rpc CreateShift (CreateShiftDto) returns (Shift) {}
+  rpc FindShiftsByTimeRange (FindShiftsByTimeRangeDto) returns (Shifts) {}
+  rpc FindOneShift (FindOneShiftDto) returns (Shift) {}
+  rpc UpdateShift (UpdateShiftDto) returns (Shift) {}
+  rpc ValidateSecretKey (ValidateSecretKeyDto) returns (ValidateSecretKeyResponse) {}
+}
+
+message CreateShiftDto {
+  string shiftName = 1;
+  string startTime = 2;
+  string endTime = 3;
+  string secretKey = 4;
+  bool isActive = 5;
+  double totalRevenue = 6;
+  int32 orderCount = 7;
+}
+
+message UpdateShiftDto {
+  string id = 1;
+  string shiftName = 2;
+  string startTime = 3;
+  string endTime = 4;
+  string secretKey = 5;
+  bool isActive = 6;
+  double totalRevenue = 7;
+  int32 orderCount = 8;
+}
+
+message FindOneShiftDto {
+  string id = 1;
+}
+
+message FindShiftsByTimeRangeDto {
+  string startTime = 1;
+  string endTime = 2;
+}
+
+message ValidateSecretKeyDto {
+  string currentTime = 1;
+  string secretKey = 2;
+}
+
+message ValidateSecretKeyResponse {
+  bool isValid = 1;
+}
+
+message Shift {
+  string id = 1;
+  string shiftName = 2;
+  string startTime = 3;
+  string endTime = 4;
+  string secretKey = 5;
+  bool isActive = 6;
+  double totalRevenue = 7;
+  int32 orderCount = 8;
+}
+
+message Shifts {
+  repeated Shift shifts = 1;
+  int32 total = 2;
+}

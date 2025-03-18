@@ -8,7 +8,6 @@ export class MenuController implements Menu.MenuServiceController {
   constructor(private readonly menuService: MenuService) {}
 
   createDish(createDishDto: Menu.CreateDishDto) {
-    console.log('createDishDto', createDishDto);
     return this.menuService.create(createDishDto);
   }
 
