@@ -98,6 +98,31 @@ export class OrderService {
     return this.mapToOrder(order, items.map(this.mapToOrderItem));
   }
 
+  async findOrdersByTimeRange(FindOrdersByTimeRangeRequest: Order.FindOrdersByTimeRangeRequest): Promise<Order.FindOrdersByTimeRangeResponse> {
+    const { startTime, endTime } = FindOrdersByTimeRangeRequest;
+    const orders = await this.orderModel.find({
+      createdAt: { $gte: new Date(startTime), $lte: new Date(endTime) },
+    }).exec();
+    const orderIds = orders.map((order) => order._id);
+    const items = await this.orderItemModel
+      .find({ orderId: { $in: orderIds } })
+      .exec();
+    const total = await this.orderModel.countDocuments().exec();
+    const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
+    return {
+      orders: orders.map((order) =>
+        this.mapToOrder(
+          order,
+          items
+            .filter((item) => item.orderId.toString() === order._id.toString())
+            .map(this.mapToOrderItem),
+        ),
+      ),
+      total,
+      totalRevenue,
+    };
+  }
+
   async updateOrder(
     updateOrderDto: Order.UpdateOrderDto,
   ): Promise<Order.Order> {
@@ -156,7 +181,7 @@ export class OrderService {
     findAllOrderItemsByOrderIdDto: Order.FindAllOrderItemsByOrderIdDto,
   ): Promise<Order.OrderItems> {
     const orderId = findAllOrderItemsByOrderIdDto.orderId;
-    const items = await this.orderItemModel.find({ orderId }).exec();
+    const items = await this.orderItemModel.find({ orderId }).sort({ createdAt: -1 }).exec();
     const total = await this.orderItemModel.countDocuments({ orderId }).exec();
     return { items: items.map(this.mapToOrderItem), total };
   }

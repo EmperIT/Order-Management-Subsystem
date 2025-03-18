@@ -71,6 +71,19 @@
         ],
         "watchAssets": true
       }
+    },
+    "shift": {
+      "type": "application",
+      "root": "apps/shift",
+      "entryFile": "src/main",
+      "sourceRoot": "./",
+      "compilerOptions": {
+        "tsConfigPath": "apps/shift/tsconfig.app.json",
+        "assets": [
+          "proto/*.proto"
+        ],
+        "watchAssets": true
+      }
     }
   }
 }

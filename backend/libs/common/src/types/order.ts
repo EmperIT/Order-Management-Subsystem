@@ -14,7 +14,7 @@ export const protobufPackage = "order";
 export interface CreateOrderDto {
   tableId: string;
   total: number;
-  /** in_progress | paid */
+  /** pending | paid */
   status: string;
 }
 
@@ -22,7 +22,7 @@ export interface UpdateOrderDto {
   id: string;
   tableId: string;
   total: number;
-  /** in_progress | paid */
+  /** pending | paid */
   status: string;
 }
 
@@ -32,6 +32,17 @@ export interface FindAllOrderItemsByOrderIdDto {
 
 export interface FindOneOrderDto {
   id: string;
+}
+
+export interface FindOrdersByTimeRangeRequest {
+  startTime: string;
+  endTime: string;
+}
+
+export interface FindOrdersByTimeRangeResponse {
+  orders: Order[];
+  total: number;
+  totalRevenue: number;
 }
 
 export interface Order {
@@ -107,6 +118,8 @@ export interface OrderServiceClient {
 
   findOneOrder(request: FindOneOrderDto): Observable<Order>;
 
+  findOrdersByTimeRange(request: FindOrdersByTimeRangeRequest): Observable<FindOrdersByTimeRangeResponse>;
+
   updateOrder(request: UpdateOrderDto): Observable<Order>;
 
   /** OrderItem */
@@ -131,6 +144,10 @@ export interface OrderServiceController {
 
   findOneOrder(request: FindOneOrderDto): Promise<Order> | Observable<Order> | Order;
 
+  findOrdersByTimeRange(
+    request: FindOrdersByTimeRangeRequest,
+  ): Promise<FindOrdersByTimeRangeResponse> | Observable<FindOrdersByTimeRangeResponse> | FindOrdersByTimeRangeResponse;
+
   updateOrder(request: UpdateOrderDto): Promise<Order> | Observable<Order> | Order;
 
   /** OrderItem */
@@ -154,6 +171,7 @@ export function OrderServiceControllerMethods() {
       "createOrder",
       "findAllOrders",
       "findOneOrder",
+      "findOrdersByTimeRange",
       "updateOrder",
       "createOrderItem",
       "findAllOrderItemsByOrderId",

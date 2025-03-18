@@ -34,6 +34,16 @@ export class OrderController {
     );
   }
 
+@Get('time-range')
+findOrdersByTimeRange(@Query('startTime') startTime: string, @Query('endTime') endTime: string) {
+  return this.orderService.findOrdersByTimeRange({ startTime, endTime }).pipe(
+    catchError((val) => {
+      throw new HttpException(val.message, 400);
+    }),
+  );
+}
+
+
   @Get('order-items')
   findAllOrderItemsByOrderId(@Query('orderId') orderId: string) {
     return this.orderService.findAllOrderItemsByOrderId({ orderId }).pipe(

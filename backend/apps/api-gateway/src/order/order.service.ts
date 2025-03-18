@@ -27,6 +27,10 @@ export class OrderService implements OnModuleInit {
     return this.orderService.findOneOrder({ id });
   }
 
+  findOrdersByTimeRange(findOrdersByTimeRangeRequest: Order.FindOrdersByTimeRangeRequest) {
+    return this.orderService.findOrdersByTimeRange(findOrdersByTimeRangeRequest);
+  }
+
   updateOrder(id: string, updateOrderDto: Order.UpdateOrderDto) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id: _, ...updateData } = updateOrderDto;

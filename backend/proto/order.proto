@@ -7,6 +7,7 @@ service OrderService {
   rpc CreateOrder (CreateOrderDto) returns (Order) {}
   rpc FindAllOrders (PaginationDto) returns (Orders) {}
   rpc FindOneOrder (FindOneOrderDto) returns (Order) {}
+  rpc FindOrdersByTimeRange (FindOrdersByTimeRangeRequest) returns (FindOrdersByTimeRangeResponse) {}
   rpc UpdateOrder (UpdateOrderDto) returns (Order) {}
 
   // OrderItem
@@ -38,6 +39,17 @@ message FindAllOrderItemsByOrderIdDto{
 
 message FindOneOrderDto {
   string id = 1;
+}
+
+message FindOrdersByTimeRangeRequest {
+  string startTime = 1;
+  string endTime = 2;
+}
+
+message FindOrdersByTimeRangeResponse {
+  repeated Order orders = 1;
+  int32 total = 2;
+  double totalRevenue = 3;
 }
 
 message Order {

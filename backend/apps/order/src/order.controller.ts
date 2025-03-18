@@ -20,6 +20,10 @@ export class OrderController implements Order.OrderServiceController {
     return this.orderService.findOneOrder(findOneOrderDto.id);
   }
 
+  findOrdersByTimeRange(FindOrdersByTimeRangeRequest: Order.FindOrdersByTimeRangeRequest) {
+    return this.orderService.findOrdersByTimeRange(FindOrdersByTimeRangeRequest);
+  }
+
   updateOrder(updateOrderDto: Order.UpdateOrderDto) {
     return this.orderService.updateOrder(updateOrderDto);
   }
