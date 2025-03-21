@@ -5,7 +5,9 @@ export const DishSchema = new Schema({
   description: { type: String },
   price: { type: Number, required: true },
   isAvailable: { type: Boolean, default: true },
+  dishType: { type: String, required: true },
   category: { type: String },
+  imageUrl: { type: String },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });

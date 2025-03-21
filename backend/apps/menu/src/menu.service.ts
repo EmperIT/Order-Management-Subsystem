@@ -10,7 +10,9 @@ interface DishDocument {
   description: string;
   price: number;
   isAvailable: boolean;
+  dishType: string;
   category: string;
+  imageUrl?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -85,7 +87,9 @@ export class MenuService {
       description: dish.description,
       price: dish.price,
       isAvailable: dish.isAvailable,
+      dishType: dish.dishType,
       category: dish.category,
+      imageUrl: dish.imageUrl ?? '',
       createdAt: dish.createdAt.toISOString(),
       updatedAt: dish.updatedAt.toISOString(),
     };

@@ -2,10 +2,12 @@ import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MenuController } from './menu.controller';
+import { CloudinaryService } from '../../services/cloudinary.service';
 import { MenuService } from './menu.service';
 import { MENU_SERVICE } from './constants';
 import { Menu } from '@app/common';
 import { join } from 'path';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -26,8 +28,11 @@ import { join } from 'path';
         inject: [ConfigService],
       },
     ]),
+    MulterModule.register({
+      dest: './uploads',
+    }),
   ],
   controllers: [MenuController],
-  providers: [MenuService],
+  providers: [MenuService, CloudinaryService],
 })
 export class MenuModule {}

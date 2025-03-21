@@ -15,7 +15,9 @@ export interface CreateDishDto {
   description: string;
   price: number;
   isAvailable: boolean;
+  dishType: string;
   category: string;
+  imageUrl: string;
 }
 
 export interface UpdateDishDto {
@@ -24,7 +26,9 @@ export interface UpdateDishDto {
   description: string;
   price: number;
   isAvailable: boolean;
+  dishType: string;
   category: string;
+  imageUrl: string;
 }
 
 export interface FindOneDishDto {
@@ -37,7 +41,9 @@ export interface Dish {
   description: string;
   price: number;
   isAvailable: boolean;
+  dishType: string;
   category: string;
+  imageUrl: string;
   createdAt: string;
   updatedAt: string;
 }

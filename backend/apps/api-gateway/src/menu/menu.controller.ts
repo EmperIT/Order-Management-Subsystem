@@ -8,17 +8,32 @@ import {
   Param,
   Query,
   HttpException,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { MenuService } from './menu.service';
 import { catchError } from 'rxjs';
+import { from, Observable } from 'rxjs';
 
 @Controller('menu')
 export class MenuController {
   constructor(private readonly menuService: MenuService) {}
 
   @Post()
-  create(@Body() createDishDto: any) {
-    return this.menuService.create(createDishDto).pipe(
+  @UseInterceptors(FileInterceptor('image'))
+  async create(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() createDishDto: any,
+  ): Promise<Observable<any>> {
+    if (file) {
+      const allowedExtensions = ['.webp', '.png', '.jpg', '.jpeg'];
+      const extension = file.originalname.match(/\.\w+$/);
+      if (!extension || !allowedExtensions.includes(extension[0])) {
+        throw new HttpException('Invalid file type', 400);
+      }
+    }
+    return from(this.menuService.create(createDishDto, file)).pipe(
       catchError((val) => {
         throw new HttpException(val.message, 400);
       }),
@@ -44,8 +59,18 @@ export class MenuController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDishDto: any) {
-    return this.menuService.update(id, updateDishDto).pipe(
+  @UseInterceptors(FileInterceptor('image'))
+  async update(
+    @Param('id') id: string,
+    @Body() updateDishDto: any,
+    @UploadedFile() file: Express.Multer.File,
+  ): Promise<Observable<any>> {
+    const allowedExtensions = ['.webp', '.png', '.jpg', '.jpeg'];
+    const extension = file.originalname.match(/\.\w+$/);
+    if (!extension || !allowedExtensions.includes(extension[0])) {
+      throw new HttpException('Invalid file type', 400);
+    }
+    return from(this.menuService.update(id, updateDishDto, file)).pipe(
       catchError((val) => {
         throw new HttpException(val.message, 400);
       }),
@@ -53,13 +78,11 @@ export class MenuController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.menuService.remove(id).pipe(
-      catchError((val) => {
-        throw new HttpException(val.message, 400);
-      }),
-    );
+  async remove(@Param('id') id: string) {
+    try {
+      return await this.menuService.remove(id);
+    } catch (val) {
+      throw new HttpException(val.message, 400);
+    }
   }
 }
-
-export { MenuService };

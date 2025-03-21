@@ -15,7 +15,9 @@ message CreateDishDto {
   string description = 2;
   double price = 3;
   bool isAvailable = 4;
-  string category = 5;
+  string dishType = 5;
+  string category = 6;
+  string imageUrl = 7;
 }
 
 message UpdateDishDto {
@@ -24,7 +26,9 @@ message UpdateDishDto {
   string description = 3;
   double price = 4;
   bool isAvailable = 5;
-  string category = 6;
+  string dishType = 6;
+  string category = 7;
+  string imageUrl = 8;
 }
 
 message FindOneDishDto {
@@ -37,9 +41,11 @@ message Dish {
   string description = 3;
   double price = 4;
   bool isAvailable = 5;
-  string category = 6;
-  string createdAt = 7;
-  string updatedAt = 8;
+  string dishType = 6;
+  string category = 7;
+  string imageUrl = 8;
+  string createdAt = 9;
+  string updatedAt = 10;
 }
 
 message Dishes {
