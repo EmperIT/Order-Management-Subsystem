@@ -12,13 +12,10 @@ service UsersService {
   rpc RefreshToken (RefreshTokenDto) returns (LoginResponse) {}
 }
 
-message Empty {}
-
 message CreateUserDto {
   string username = 1;
   string password = 2;
-  string role = 3;
-  string name = 4;
+  string name = 3;
 }
 
 message FindOneUserDto {
@@ -29,17 +26,15 @@ message UpdateUserDto {
   string id = 1;
   string username = 2;
   string password = 3;
-  string role = 4;
-  string name = 5;
+  string name = 4;
 }
 
 message User {
   string id = 1;
   string username = 2;
-  string role = 3;
-  string name = 4;
-  string createdAt = 5;
-  string updatedAt = 6;
+  string name = 3;
+  string createdAt = 4;
+  string updatedAt = 5;
 }
 
 message Users {

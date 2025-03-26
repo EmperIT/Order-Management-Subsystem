@@ -9,11 +9,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: configService.get<string>('JWT_SECRET') || 'defaultSecret'
+      secretOrKey: configService.get<string>('JWT_SECRET') || 'defaultSecret',
     });
   }
 
-  async validate(payload: any) {
+  validate(payload: any) {
     // Payload chứa thông tin từ JWT, ví dụ: { sub: userId, role: role }
     if (!payload.sub) {
       throw new UnauthorizedException('Invalid JWT payload');

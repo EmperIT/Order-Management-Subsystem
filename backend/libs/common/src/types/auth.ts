@@ -10,13 +10,9 @@ import { Observable } from "rxjs";
 
 export const protobufPackage = "auth";
 
-export interface Empty {
-}
-
 export interface CreateUserDto {
   username: string;
   password: string;
-  role: string;
   name: string;
 }
 
@@ -28,14 +24,12 @@ export interface UpdateUserDto {
   id: string;
   username: string;
   password: string;
-  role: string;
   name: string;
 }
 
 export interface User {
   id: string;
   username: string;
-  role: string;
   name: string;
   createdAt: string;
   updatedAt: string;

@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package menu;
+
+service MenuService {
+  rpc CreateDish (CreateDishDto) returns (Dish) {}
+  rpc FindAllDishes (PaginationDto) returns (Dishes) {}
+  rpc FindOneDish (FindOneDishDto) returns (Dish) {}
+  rpc UpdateDish (UpdateDishDto) returns (Dish) {}
+  rpc RemoveDish (FindOneDishDto) returns (Dish) {}
+}
+
+message CreateDishDto {
+  string name = 1;
+  string description = 2;
+  double price = 3;
+  bool isAvailable = 4;
+  string dishType = 5;
+  string category = 6;
+  string imageUrl = 7;
+}
+
+message UpdateDishDto {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+  bool isAvailable = 5;
+  string dishType = 6;
+  string category = 7;
+  string imageUrl = 8;
+}
+
+message FindOneDishDto {
+  string id = 1;
+}
+
+message Dish {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+  bool isAvailable = 5;
+  string dishType = 6;
+  string category = 7;
+  string imageUrl = 8;
+  string createdAt = 9;
+  string updatedAt = 10;
+}
+
+message Dishes {
+  repeated Dish dishes = 1;
+  int32 total = 2;
+}
+
+message PaginationDto {
+  int32 page = 1;
+  int32 limit = 2;
+}
