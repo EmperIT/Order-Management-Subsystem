@@ -8,7 +8,7 @@ import { Menu } from '@app/common';
 
 interface OrderDocument {
   _id: string;
-  tableId: string;
+  tableName: string;
   items: OrderItemDocument[];
   total: number;
   status: string;
@@ -29,6 +29,14 @@ interface OrderItemDocument {
   updatedAt: Date;
 }
 
+interface TableDocument {
+  _id: string;
+  name: string;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 @Injectable()
 export class OrderService {
   private menuService: Menu.MenuServiceClient;
@@ -38,6 +46,8 @@ export class OrderService {
     private readonly orderModel: Model<OrderDocument>,
     @InjectModel('OrderItem')
     private readonly orderItemModel: Model<OrderItemDocument>,
+    @InjectModel('Table')
+    private readonly tableModel: Model<TableDocument>,
     @Inject(Menu.MENU_PACKAGE_NAME) private readonly client: ClientGrpc, // Inject gRPC client
   ) {
     // Khởi tạo MenuService từ client gRPC
@@ -253,13 +263,98 @@ export class OrderService {
     await this.orderModel.updateOne({ _id: orderId }, { total });
   }
 
+  // Table methods
+  async createTable(createTableDto: Order.CreateTableDto): Promise<Order.Table> {
+    try {
+      const table = new this.tableModel({
+        ...createTableDto,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+      await table.save();
+      return this.mapToTable(table);
+    } catch (error) {
+      throw new RpcException({
+        statusCode: 500,
+        message: error.message,
+      });
+    }
+  }
+
+  async findAllTables(paginationDto: Order.PaginationDto): Promise<Order.Tables> {
+    const { page, limit } = paginationDto;
+    const skip = (page - 1) * limit;
+    const tables = await this.tableModel.find().skip(skip).limit(limit).exec();
+    const total = await this.tableModel.countDocuments().exec();
+    return { tables: tables.map(this.mapToTable), total };
+  }
+
+  async findOneTable(findOneTableDto: Order.FindOneTableDto): Promise<Order.Table> {
+    try {
+      const table = await this.tableModel.findOne({ name: findOneTableDto.name }).exec();
+      if (!table) {
+        throw new RpcException({
+          statusCode: 404,
+          message: `Không tìm thấy bàn với tên ${findOneTableDto.name}`,
+        });
+      }
+      return this.mapToTable(table);
+    } catch (error) {
+      throw new RpcException({
+        statusCode: 500,
+        message: error.message,
+      });
+    }
+  }
+
+  async updateTable(updateTableDto: Order.UpdateTableDto): Promise<Order.Table> {
+    try {
+      const table = await this.tableModel.findById(updateTableDto.id).exec();
+      if (!table) {
+        throw new RpcException({
+          statusCode: 404,
+          message: `Không tìm thấy bàn với id ${updateTableDto.id}`,
+        });
+      }
+      Object.assign(table, {
+        ...updateTableDto,
+        updatedAt: new Date(),
+      });
+      await table.save();
+      return this.mapToTable(table);
+    } catch (error) {
+      throw new RpcException({
+        statusCode: 500,
+        message: error.message,
+      });
+    }
+  }
+
+  async removeTable(findOneTableDto: Order.FindOneTableDto): Promise<Order.Table> {
+    try {
+      const table = await this.tableModel.findOneAndDelete({ name: findOneTableDto.name }).exec();
+      if (!table) {
+        throw new RpcException({
+          statusCode: 404,
+          message: `Không tìm thấy bàn với tên ${findOneTableDto.name}`,
+        });
+      }
+      return this.mapToTable(table);
+    } catch (error) {
+      throw new RpcException({
+        statusCode: 500,
+        message: error.message,
+      });
+    }
+  }
+
   private mapToOrder(
     order: OrderDocument,
     items: Order.OrderItem[] = [],
   ): Order.Order {
     return {
       id: order._id.toString(),
-      tableId: order.tableId,
+      tableName: order.tableName,
       items,
       total: order.total || 0,
       status: order.status,
@@ -280,6 +375,16 @@ export class OrderService {
       status: orderItem.status,
       createdAt: orderItem.createdAt.toISOString(),
       updatedAt: orderItem.updatedAt.toISOString(),
+    };
+  }
+
+  private mapToTable(table: TableDocument): Order.Table {
+    return {
+      id: table._id.toString(),
+      name: table.name,
+      status: table.status,
+      createdAt: table.createdAt.toISOString(),
+      updatedAt: table.updatedAt.toISOString(),
     };
   }
 }

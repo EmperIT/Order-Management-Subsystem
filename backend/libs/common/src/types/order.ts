@@ -12,7 +12,7 @@ export const protobufPackage = "order";
 
 /** --- ORDER DTOs --- */
 export interface CreateOrderDto {
-  tableId: string;
+  tableName: string;
   total: number;
   /** pending | paid */
   status: string;
@@ -20,7 +20,7 @@ export interface CreateOrderDto {
 
 export interface UpdateOrderDto {
   id: string;
-  tableId: string;
+  tableName: string;
   total: number;
   /** pending | paid */
   status: string;
@@ -47,7 +47,7 @@ export interface FindOrdersByTimeRangeResponse {
 
 export interface Order {
   id: string;
-  tableId: string;
+  tableName: string;
   items: OrderItem[];
   total: number;
   status: string;
@@ -101,6 +101,34 @@ export interface OrderItems {
   total: number;
 }
 
+export interface CreateTableDto {
+  name: string;
+  status: string;
+}
+
+export interface UpdateTableDto {
+  id: string;
+  name: string;
+  status: string;
+}
+
+export interface FindOneTableDto {
+  name: string;
+}
+
+export interface Table {
+  id: string;
+  name: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Tables {
+  tables: Table[];
+  total: number;
+}
+
 /** --- COMMON --- */
 export interface PaginationDto {
   page: number;
@@ -133,6 +161,18 @@ export interface OrderServiceClient {
   updateOrderItem(request: UpdateOrderItemDto): Observable<OrderItem>;
 
   removeOrderItem(request: FindOneOrderItemDto): Observable<OrderItem>;
+
+  /** Table */
+
+  createTable(request: CreateTableDto): Observable<Table>;
+
+  findAllTables(request: PaginationDto): Observable<Tables>;
+
+  findOneTable(request: FindOneTableDto): Observable<Table>;
+
+  updateTable(request: UpdateTableDto): Observable<Table>;
+
+  removeTable(request: FindOneTableDto): Observable<Table>;
 }
 
 export interface OrderServiceController {
@@ -163,6 +203,18 @@ export interface OrderServiceController {
   updateOrderItem(request: UpdateOrderItemDto): Promise<OrderItem> | Observable<OrderItem> | OrderItem;
 
   removeOrderItem(request: FindOneOrderItemDto): Promise<OrderItem> | Observable<OrderItem> | OrderItem;
+
+  /** Table */
+
+  createTable(request: CreateTableDto): Promise<Table> | Observable<Table> | Table;
+
+  findAllTables(request: PaginationDto): Promise<Tables> | Observable<Tables> | Tables;
+
+  findOneTable(request: FindOneTableDto): Promise<Table> | Observable<Table> | Table;
+
+  updateTable(request: UpdateTableDto): Promise<Table> | Observable<Table> | Table;
+
+  removeTable(request: FindOneTableDto): Promise<Table> | Observable<Table> | Table;
 }
 
 export function OrderServiceControllerMethods() {
@@ -178,6 +230,11 @@ export function OrderServiceControllerMethods() {
       "findOneOrderItem",
       "updateOrderItem",
       "removeOrderItem",
+      "createTable",
+      "findAllTables",
+      "findOneTable",
+      "updateTable",
+      "removeTable",
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);

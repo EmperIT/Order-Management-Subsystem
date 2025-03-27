@@ -7,8 +7,10 @@ import {
   Param,
   Query,
   HttpException,
+  UseGuards,
 } from '@nestjs/common';
 import { ShiftService } from './shift.service';
+import { AuthGuard } from '@nestjs/passport';
 import { catchError } from 'rxjs';
 
 @Controller('shift')
@@ -16,6 +18,7 @@ export class ShiftController {
   constructor(private readonly shiftService: ShiftService) {}
 
   @Post()
+  @UseGuards(AuthGuard('jwt'))
   createShift(@Body() createDishDto: any) {
     return this.shiftService.createShift(createDishDto).pipe(
       catchError((val) => {
@@ -25,6 +28,7 @@ export class ShiftController {
   }
 
   @Get()
+  @UseGuards(AuthGuard('jwt'))
   findShiftsByTimeRange(@Query('startTime') startTime: string, @Query('endTime') endTime: string) {
     return this.shiftService.findShiftsByTimeRange({ startTime, endTime }).pipe(
       catchError((val) => {
@@ -43,6 +47,7 @@ export class ShiftController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard('jwt'))
   findOne(@Param('id') id: string) {
     return this.shiftService.findOneShift(id).pipe(
       catchError((val) => {
@@ -52,6 +57,7 @@ export class ShiftController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard('jwt'))
   updateShift(@Param('id') id: string, @Body() updateDishDto: any) {
     return this.shiftService.updateShift(id, updateDishDto).pipe(
       catchError((val) => {

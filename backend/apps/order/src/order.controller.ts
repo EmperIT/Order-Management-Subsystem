@@ -52,4 +52,25 @@ export class OrderController implements Order.OrderServiceController {
   removeOrderItem(findOneOrderItemDto: Order.FindOneOrderItemDto) {
     return this.orderService.removeOrderItem(findOneOrderItemDto);
   }
+
+  /** --- TABLE endpoints --- **/
+  createTable(createTableDto: Order.CreateTableDto) {
+    return this.orderService.createTable(createTableDto);
+  }
+
+  findAllTables(paginationDto: Order.PaginationDto) {
+    return this.orderService.findAllTables(paginationDto);
+  }
+
+  findOneTable(findOneTableDto: Order.FindOneTableDto) {
+    return this.orderService.findOneTable(findOneTableDto);
+  }
+
+  updateTable(updateTableDto: Order.UpdateTableDto) {
+    return this.orderService.updateTable(updateTableDto);
+  }
+
+  removeTable(findOneTableDto: Order.FindOneTableDto) {
+    return this.orderService.removeTable(findOneTableDto);
+  }
 }
