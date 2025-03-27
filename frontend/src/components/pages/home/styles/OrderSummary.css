@@ -1,0 +1,29 @@
+.order-summary {
+    width: 100%;
+    margin-top: auto ;
+    color:black;
+    background: white;
+    font-size: 16px;
+    border-top: 2px solid #f1f1f1;
+}
+
+.order-summary table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-summary td {
+    padding: 8px 0;
+}
+.order-summary .right{
+    text-align: right;
+}
+.order-summary .total-right {
+    text-align: right;
+    color: #ff0000;
+    font-weight: bold;
+}
+
+.total-row td {
+    font-weight: bold;
+}

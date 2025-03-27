@@ -1,0 +1,25 @@
+.order-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    overflow-y: auto;
+}
+
+.order-content {
+    flex: 1;
+    margin-left: 100px;
+    overflow: auto;
+
+}
+
+.order-title-page {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 130px;
+    margin-left: 20px;
+    color: #333;
+}
+
+.order-body {
+    height: 600px;
+}

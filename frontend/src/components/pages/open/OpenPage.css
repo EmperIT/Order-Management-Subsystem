@@ -1,0 +1,89 @@
+.open-page {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat; /* Tránh lặp hình ảnh */
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    text-align: center;
+    color: white;
+  }
+  @media (max-width: 768px) {
+    .open-page {
+        background-size: cover; /* Giữ nguyên tỉ lệ hình nền trên màn hình nhỏ */
+        background-position: top;
+      }
+}
+  
+  .open-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  .open-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    text-align: left;
+    margin-left: 50px;
+  }
+  
+  h1 {
+    font-size: 60px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .open-highlight {
+    color: yellow;
+  }
+  
+  p {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .open-button {
+    padding: 16px 28px;
+    font-size: 18px;
+    background: white;
+    font-weight: bold;
+    border: none;
+    color: black;
+    cursor: pointer;
+    border-radius: 20px;
+  }
+  
+  .open-button:hover {
+    background: #e03e00;
+  }
+  .header-open {
+    width: 100%;
+    height: 80px; /* Độ cao header */
+    background-color: rgba(0, 0, 0, 0.6); /* Màu nền với hiệu ứng mờ */
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+  }
+  
+  .header-open-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .header-open-logo {
+    height: 60px; /* Điều chỉnh kích thước logo */
+  }
+  
