@@ -1,0 +1,39 @@
+.title-dashboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+  }
+.title-dashboard h1 {
+    font-size: 24px;
+    color: #333;
+  }
+  .filters-dashboard {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .filters-dashboard select{
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .date-range-picker {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .date-range-picker input{
+    width: 100px; /* Điều chỉnh độ rộng */
+    height: 20px; 
+  }
+  
+  .react-datepicker__input-container input {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 120px;
+  }
+  

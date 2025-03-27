@@ -1,0 +1,50 @@
+.sidebar {
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  position: fixed;
+  justify-content:flex-start;
+  gap: 50px 
+}
+
+.logo{
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: black;
+  font-size: 24px;
+}
+.logo img{
+  width: 100%;
+  max-width: 100px;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: gray;
+  font-size: 30px;
+  cursor: pointer;
+  width: 100%;
+  padding: 12px;
+  transition: background 0.3s ease, transform 0.2s ease;
+  border-radius: 8px;
+}
+
+
+.nav-btn:hover {
+  background: #e9ecef;
+  color: #2E636E;
+  transform: scale(1.05);
+}
+
+.nav-btn.active {
+  transform: scale(0.98);
+  color: #2E636E ;
+}
+
+.nav-btn svg {
+  font-size: 30px;
+}

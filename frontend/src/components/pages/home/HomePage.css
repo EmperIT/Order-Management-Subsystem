@@ -1,0 +1,49 @@
+.home-container {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 100px 1fr 350px; /* Sidebar cố định, menu linh hoạt, order cố định */
+    min-height: 100vh;
+    background-color: #f8f8f8;
+
+}
+
+/* Header */
+.head-container {
+    grid-column: 2 / 4; /* Trải dài từ cột 2 đến 3 */
+    background-color: white;
+    display: flex;
+    
+}
+
+/* Nội dung chính */
+.body-container {
+    grid-column: 2 / 3; /* Đặt nội dung chính ở cột 2 */
+    height: calc(100vh - 60px); /* Giữ lại khoảng trống cho header */
+    overflow-y: auto; /* Cho phép cuộn bên trong nội dung chính */
+    margin-top: 150px;
+}
+
+/* Order Section (bên phải) */
+.order-sidebar-container {
+    grid-column: 3 / 4; /* Nằm ở cột cuối cùng */
+    background-color: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+
+}
+
+/* Nút Đặt Hàng */
+.place-order-btn {
+    background: green;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.place-order-btn:hover {
+    background-color: #006600;
+}

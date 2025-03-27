@@ -1,0 +1,25 @@
+.invoice-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.invoice-controls label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.invoice-controls select {
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.invoice-controls span {
+    font-size: 16px;
+    font-weight: bold;
+    color: #024C21;
+}

@@ -1,0 +1,25 @@
+.order-detail-body{
+    display: flex;
+    justify-content: space-between;
+    height: 400px;
+}
+
+.payment-logo{
+    width: 50px;
+    object-fit: contain;
+    margin: auto;
+}
+.payment-method {
+    margin-top: 20px;
+}
+
+.add-more-btn{
+    background-color: #024C21;
+    color: white;
+}
+
+.payment-btn{
+    background-color: #A16240;
+    color: white;
+}
+

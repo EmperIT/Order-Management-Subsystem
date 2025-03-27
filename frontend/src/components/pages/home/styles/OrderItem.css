@@ -1,0 +1,124 @@
+.order-item {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+    /* gap: 10px; */
+  }
+  
+  .order-item-image {
+    width: 70px;
+    height: 70px;
+    border-radius: 5px;
+    margin-right: 15px;
+    object-fit: cover;
+  }
+  
+  
+  .order-item-name {
+    font-weight: bold;
+    font-size: 16px;
+    color: black;
+    object-fit: cover;
+    margin: 10px 0;
+  }
+  
+  .order-item-price {
+    color: #d35400;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .order-item-quantity {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+  }
+  .o.order-status {
+    font-weight: bold;
+    padding: 5px;
+    text-align: center;
+  }
+  
+  .order-status.done {
+    color: green;
+  }
+  
+  .order-status.pending {
+    color: red;
+  }
+  .quantity-btn-add {
+    background-color: #d35400;
+    color: white;
+    padding: 0px 5px;
+    font-weight: bold;
+    font-size: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .quantity-btn-remove {
+    background-color: #8a8a8a;
+    color: white;
+    padding: 0px 8px;
+    font-weight: bold;
+    font-size: 20px;
+    border: none;
+    border-radius: 5px;
+    margin-left:20px ;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .quantity-btn-add:hover {
+    background-color: #e67e22;
+  }
+  .quantity-btn-remove:hover {
+    background-color: #cbcbcb;
+  }
+
+  
+  .quantity {
+    margin: 0 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+  }
+  
+  /* Thêm hiệu ứng cho nút trạng thái */
+.order-status-btn {
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
+  width: 100px;
+  text-align: center;
+}
+
+/* Trạng thái chưa hoàn thành (pending) */
+.order-status-btn.pending {
+  background-color: red; /* Màu vàng */
+  color: white;
+}
+
+.order-status-btn.pending:hover {
+  background-color: rgb(150, 0, 0);
+ 
+}
+
+/* Trạng thái đã hoàn thành (done) */
+.order-status-btn.done {
+  background-color: #28a745; /* Màu xanh lá */
+  color: white;
+  border: 1px solid #218838;
+  box-shadow: 0px 2px 5px rgba(40, 167, 69, 0.5);
+}
+
+.order-status-btn.done:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}

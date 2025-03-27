@@ -1,0 +1,27 @@
+.home-chef-container {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 100px 1fr; /* Sidebar cố định, menu linh hoạt, order cố định */
+    min-height: 100vh;
+    background-color: #f8f8f8;
+
+}
+
+/* Header */
+.head-chef-container {
+    grid-column: 2 / 4; /* Trải dài từ cột 2 đến 3 */
+    background-color: white;
+    display: flex;
+    
+}
+
+/* Nội dung chính */
+.body-chef-container {
+    grid-column: 2 / 3; /* Đặt nội dung chính ở cột 2 */
+    height: calc(100vh - 60px); /* Giữ lại khoảng trống cho header */
+    overflow-y: auto; /* Cho phép cuộn bên trong nội dung chính */
+    margin-top: 150px;
+}
+
+
+
