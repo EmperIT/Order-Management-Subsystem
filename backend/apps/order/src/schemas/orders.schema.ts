@@ -2,7 +2,7 @@ import { Schema } from 'mongoose';
 
 export const OrderSchema = new Schema(
   {
-    tableId: {
+    tableName: {
       type: String,
       required: true,
     },

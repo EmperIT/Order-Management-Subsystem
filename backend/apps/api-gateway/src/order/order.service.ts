@@ -62,4 +62,26 @@ export class OrderService implements OnModuleInit {
   removeOrderItem(id: string) {
     return this.orderService.removeOrderItem({ id });
   }
+
+  createTable(createTableDto: Order.CreateTableDto) {
+    return this.orderService.createTable(createTableDto);
+  }
+
+  findAllTables(paginationDto: Order.PaginationDto) {
+    return this.orderService.findAllTables(paginationDto);
+  }
+
+  findOneTable(name: string) {
+    return this.orderService.findOneTable({ name });
+  }
+
+  updateTable(id: string, updateTableDto: Order.UpdateTableDto) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id: _, ...updateData } = updateTableDto;
+    return this.orderService.updateTable({ id, ...updateData });
+  }
+
+  removeTable(name: string) {
+    return this.orderService.removeTable({ name });
+  }
 }

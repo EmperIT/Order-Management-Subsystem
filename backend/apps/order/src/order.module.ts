@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { OrderSchema } from './schemas/orders.schema';
 import { OrderItemSchema } from './schemas/order-items.schema';
+import { TableSchema } from './schemas/tables.schema';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { Menu } from '@app/common';
 import { join } from 'path';
@@ -15,6 +16,7 @@ import { join } from 'path';
     MongooseModule.forFeature([
       { name: 'Order', schema: OrderSchema },
       { name: 'OrderItem', schema: OrderItemSchema },
+      { name: 'Table', schema: TableSchema },
     ]),
     // Đăng ký ClientsModule cho gRPC client
     ClientsModule.registerAsync([

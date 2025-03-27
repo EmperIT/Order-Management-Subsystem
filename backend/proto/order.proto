@@ -17,18 +17,25 @@ service OrderService {
   rpc UpdateOrderItem (UpdateOrderItemDto) returns (OrderItem) {}
   rpc RemoveOrderItem (FindOneOrderItemDto) returns (OrderItem) {}
 
+  // Table
+  rpc CreateTable (CreateTableDto) returns (Table) {}
+  rpc FindAllTables (PaginationDto) returns (Tables) {}
+  rpc FindOneTable (FindOneTableDto) returns (Table) {}
+  rpc UpdateTable (UpdateTableDto) returns (Table) {}
+  rpc RemoveTable (FindOneTableDto) returns (Table) {}
+
 }
 
 /* --- ORDER DTOs --- */
 message CreateOrderDto {
-  string tableId = 1;
+  string tableName = 1;
   double total = 2;
   string status = 3; // pending | paid
 }
 
 message UpdateOrderDto {
   string id = 1;
-  string tableId = 2;
+  string tableName = 2;
   double total = 3;
   string status = 4; // pending | paid
 }
@@ -54,7 +61,7 @@ message FindOrdersByTimeRangeResponse {
 
 message Order {
   string id = 1;
-  string tableId = 2;
+  string tableName = 2;
   repeated OrderItem items = 3;
   double total = 4;
   string status = 5;
@@ -104,6 +111,36 @@ message OrderItem {
 
 message OrderItems {
   repeated OrderItem items = 1;
+  int32 total = 2;
+}
+
+/* --- TABLE DTOs --- */
+
+message CreateTableDto {
+  string name = 1;
+  string status = 2;
+}
+
+message UpdateTableDto {
+  string id = 1;
+  string name = 2;
+  string status = 3;
+}
+
+message FindOneTableDto {
+  string name = 1;
+}
+
+message Table {
+  string id = 1;
+  string name = 2;
+  string status = 3;
+  string createdAt = 4;
+  string updatedAt = 5;
+}
+
+message Tables {
+  repeated Table tables = 1;
   int32 total = 2;
 }
 
