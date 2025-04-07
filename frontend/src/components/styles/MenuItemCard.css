@@ -68,6 +68,11 @@
 .menu-add-btn:hover {
   background: darkred;
 }
+.menu-add-btn:disabled, .menu-add-btn.disabled {
+  background-color: #ccc; /* Màu xám khi không thể bấm */
+  cursor: not-allowed; /* Con trỏ không được phép khi không thể bấm */
+}
+
 
 /* Toggle switch */
 .switch {

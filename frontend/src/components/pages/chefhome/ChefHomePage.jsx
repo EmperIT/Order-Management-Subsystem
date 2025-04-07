@@ -1,68 +1,100 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import React from "react";
 import SidebarChef from "../../layout/SidebarChef";
 import Header from "../../layout/Header";
 import MenuGridChef from "./component/MenuGridChef";
 import CategoryFood from "../home/component/CategoryFood";
-import steakImage from "../../../assets/images/Bo/2865-loi-vai-wagyu.jpg";
+import useMenu from "../../../hooks/useMenu";
+import { updateMenuItemAvailability } from "../../../services/menuServices";
 import "./ChefHomePage.css";
 
 const ChefHomePage = () => {
-  const menuItems = [
-    { id: 1, image: steakImage, name: "Core Steak 200g", price: "250.000" },
-    { id: 2, image: steakImage, name: "Pizza Margherita", price: "180.000" },
-    { id: 3, image: steakImage, name: "Sushi Combo", price: "320.000" },
-    { id: 4, image: steakImage, name: "Classic Burger", price: "150.000" },
-    { id: 5, image: steakImage, name: "Spaghetti Carbonara", price: "200.000" },
-    { id: 6, image: steakImage, name: "Shoyu Ramen", price: "170.000" },
-    { id: 7, image: steakImage, name: "Caesar Salad", price: "120.000" },
-    { id: 8, image: steakImage, name: "Tacos Al Pastor", price: "190.000" },
-    { id: 9, image: steakImage, name: "Chicken Sandwich", price: "140.000" },
-    { id: 10, image: steakImage, name: "Cappuccino", price: "80.000" },
-    { id: 11, image: steakImage, name: "Fresh Orange Juice", price: "90.000" },
-    { id: 12, image: steakImage, name: "Vanilla Ice Cream", price: "110.000" },
-    { id: 13, image: steakImage, name: "Miso Soup", price: "100.000" },
-    { id: 14, image: steakImage, name: "T-Bone Steak", price: "350.000" },
-    { id: 15, image: steakImage, name: "Pepperoni Pizza", price: "210.000" },
-    { id: 16, image: steakImage, name: "Salmon Nigiri", price: "290.000" },
-    { id: 17, image: steakImage, name: "Lasagna", price: "230.000" },
-    { id: 18, image: steakImage, name: "Cheeseburger", price: "160.000" },
-    { id: 19, image: steakImage, name: "Ribeye Steak 300g", price: "400.000" },
-    { id: 20, image: steakImage, name: "Tonkotsu Ramen", price: "180.000" },
-  ];
-  const [orders, setOrders] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All"); // Mặc định: tất cả món ăn
+  const [selectedDishType, setSelectedDishType] = useState("All"); // Default: all dish types
+  const {menu, loading, error, setMenu} = useMenu(); // Gọi API lấy danh sách món ăn
+  const [filteredMenu, setFilteredMenu] = useState(menu); // Danh sách món đã lọc theo category
+  const location = useLocation();
 
-  const toggleOrder = (item) => {
-    setOrders((prevOrders) => {
-      const exists = prevOrders.some((order) => order.id === item.id);
-      return exists
-        ? prevOrders.filter((order) => order.id !== item.id) // Nếu tồn tại → Xóa món khỏi danh sách
-        : [...prevOrders, item]; // Nếu chưa có → Thêm món vào danh sách
-    });
+  useEffect(() => {
+      const queryParams = new URLSearchParams(location.search);
+      const category = queryParams.get("category");
+  
+      if (category) {
+        setSelectedDishType(category);
+      } else {
+        setSelectedDishType("All"); // Nếu không có category, hiển thị tất cả
+      }
+    }, [location.search]); // Cập nhật khi query string thay đổi
+  
+  useEffect(() => {
+    setFilteredMenu(
+      menu.filter(item => 
+        (selectedCategory === "All" || item.category === selectedCategory) &&
+        (selectedDishType === "All" || item.dishType === selectedDishType)
+      )
+    );
+  }, [selectedCategory, selectedDishType, menu]);
+
+
+  const handleToggleAvailability = async (itemId, currentAvailability) => {
+    try {
+      await updateMenuItemAvailability(itemId, !currentAvailability);
+          // ✅ Cập nhật UI ngay sau khi API thành công
+      setMenu((prevMenu) =>
+        prevMenu.map((item) =>
+          item.id === itemId ? { ...item, isAvailable: !currentAvailability } : item
+        )
+      );
+      console.log("Success update") // Gọi API cập nhật trạng thái món ăn
+    } catch (error) {
+      console.error("Lỗi khi cập nhật trạng thái món ăn:", error);
+    }
   };
+  
   const handleCategorySelect = (category) => {
     console.log("Selected category:", category);
-};
+    setSelectedCategory(category);
+  };
+  const handleDishTypeSelect = (dishType) => {
+    setSelectedDishType(dishType);
+  };
 
+  if (loading) {
+    return <div>Đang tải menu...</div>;
+  }
+
+  if (error) {
+    return <div>Đã xảy ra lỗi khi tải menu: {error.message}</div>;
+  }
   return (
     <div className="home-chef-container">
-      {/* Sidebar cố định */}
-      <SidebarChef />
+      <SidebarChef setSelectedDishType={handleDishTypeSelect} />
 
       {/* Header trải dài từ cột 2 đến 3 */}
       <div className="head-chef-container">
-        <Header />     
-         <CategoryFood onSelectCategory={handleCategorySelect} />
+        <Header />   
+        {selectedDishType === "carte" && (
+          <CategoryFood selectedCategory={selectedCategory} onSelectCategory={handleCategorySelect} />
+        )}  
 
       </div>
 
       {/* Nội dung chính */}
       <div className="body-chef-container">
-      <MenuGridChef
-          menuItems={menuItems}
-          orders={orders}
-          toggleOrder={toggleOrder}
-        />
+        {loading ? (
+          <p> Đang tải dữ liệu...</p>
+        ) : error ? (
+          <p>Lỗi: {error}</p>
+        ) : filteredMenu.length > 0 ?(
+          <MenuGridChef
+              menuItems={filteredMenu}
+              toggleAvailability={handleToggleAvailability}
+            />
+        ) : (
+          <p>Không có món nào phù hợp</p>
+        )        
+      }
       </div>
 
       {/* Khu vực đặt hàng */}

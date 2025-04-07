@@ -47,3 +47,95 @@
 .place-order-btn:hover {
     background-color: #006600;
 }
+  /* Overlay */
+  .modal-item-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Nội dung modal */
+  .modal-item-content {
+    background: #fff;
+    border-radius: 12px;
+    width: 600px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Chi tiết modal (hình ảnh + nội dung) */
+  .modal-item-details {
+    display: flex;
+    align-items: center;
+  }
+  .modal-item-image {
+    flex: 1; /* Chiếm 50% chiều rộng */
+    max-width: 50%; /* Giới hạn tối đa 50% */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f8f8; /* Màu nền nhẹ */
+  }
+  /* Hình ảnh món ăn */
+  .modal-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  /* Nội dung văn bản bên phải */
+  .modal-item-text {
+    flex: 1;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  /* Tên món ăn */
+  .modal-item-text h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  /* Mô tả */
+  .dish-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+  }
+  
+  /* Giá tiền */
+  .dish-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #8B4513;
+    margin-bottom: 10px;
+  }
+  
+  /* Nút thêm vào giỏ */
+  .add-to-cart-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .add-to-cart-btn:hover {
+    background: #45a049;
+  }

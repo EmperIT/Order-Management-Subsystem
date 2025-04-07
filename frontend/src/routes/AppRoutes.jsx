@@ -13,7 +13,7 @@ const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to="/home" replace />} />
+        <Route path="/" element={<Navigate to="/open" replace />} />
         <Route path="/open" element={<OpenPage />} />
         <Route path="/table" element={<TableList />} />
         <Route path="/home" element={<HomePage />} />

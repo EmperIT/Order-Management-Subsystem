@@ -85,4 +85,16 @@ export class MenuController {
       throw new HttpException(val.message, 400);
     }
   }
+  @Patch(':id/availability')
+  async updateAvailability(
+    @Param('id') id: string,
+    @Body() body: { isAvailable: boolean },
+  ): Promise<Observable<any>> {
+    return from(this.menuService.update(id, body)).pipe(
+      catchError((val) => {
+        throw new HttpException(val.message, 400);
+      }),
+    );
+  }
 }
+
