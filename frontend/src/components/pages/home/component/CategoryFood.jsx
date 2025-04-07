@@ -1,23 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import "../styles/CategoryFood.css";
 
-const categories = ["All", "Bread", "Chiffon & Rolls", "Donut", "Cakes"];
+const categories = ["All", "Heo", "Bò", "Gà", "Cá"]; // Danh sách các category có thể tùy chỉnh
 
-const CategoryFood = ({ onSelectCategory }) => {
-  const [selectedCategory, setSelectedCategory] = useState("All");
-
-  const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
-    onSelectCategory(category); // Gọi hàm để cập nhật danh mục trên HomePage
-  };
-
+const CategoryFood = ({ selectedCategory, onSelectCategory }) => {
   return (
     <div className="category-food">
       {categories.map((category) => (
         <button
           key={category}
           className={`category-button ${selectedCategory === category ? "active" : ""}`}
-          onClick={() => handleCategoryClick(category)}
+          onClick={() => onSelectCategory(category)} // Gọi hàm từ HomePage để cập nhật category
         >
           {category}
         </button>

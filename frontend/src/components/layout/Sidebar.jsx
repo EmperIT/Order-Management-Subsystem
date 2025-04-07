@@ -5,7 +5,11 @@ import logo from '../../assets/icons/logo.png';
 
 const Sidebar = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // Lấy đường dẫn hiện tại
+  const location = useLocation();
+  
+  // Lấy giá trị của category từ URL
+  const queryParams = new URLSearchParams(location.search);
+  const category = queryParams.get("category");
 
   return (
     <div className="sidebar">
@@ -13,20 +17,20 @@ const Sidebar = () => {
         <img src={logo} alt="logo" />
       </div>
       <button 
-        className={`nav-btn ${location.pathname === "/home" ? "active" : ""}`} 
-        onClick={() => navigate("/home")}
+        className={`nav-btn ${category === "carte" ? "active" : ""}`} 
+        onClick={() => navigate("/home?category=carte")}
       >
         <FaHamburger />
       </button>
       <button 
-        className={`nav-btn ${location.pathname === "/home" ? "active" : ""}`} 
-        onClick={() => navigate("/home")}
+        className={`nav-btn ${category === "buffet" ? "active" : ""}`} 
+        onClick={() => navigate("/home?category=buffet")}
       >
         <FaBook />
       </button>
       <button 
-        className={`nav-btn ${location.pathname === "/home" ? "active" : ""}`} 
-        onClick={() => navigate("/home")}
+        className={`nav-btn ${category === "combo" ? "active" : ""}`} 
+        onClick={() => navigate("/home?category=combo")}
       >
         <FaUtensils />
       </button>
