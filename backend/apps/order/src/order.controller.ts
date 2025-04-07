@@ -28,6 +28,10 @@ export class OrderController implements Order.OrderServiceController {
     return this.orderService.updateOrder(updateOrderDto);
   }
 
+  removeOrder(findOneOrderDto: Order.FindOneOrderDto) {
+    return this.orderService.removeOrder(findOneOrderDto);
+  }
+
   /** --- ORDER ITEM endpoints --- **/
   createOrderItem(createOrderItemDto: Order.CreateOrderItemDto) {
     return this.orderService.createOrderItem(createOrderItemDto);

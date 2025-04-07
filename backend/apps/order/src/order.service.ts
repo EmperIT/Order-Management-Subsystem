@@ -151,6 +151,17 @@ export class OrderService {
     return this.mapToOrder(order);
   }
 
+  async removeOrder(findOneOrderDto: Order.FindOneOrderDto): Promise<Order.Order> {
+    const order = await this.orderModel.findByIdAndDelete(findOneOrderDto.id).exec();
+    if (!order) {
+      throw new RpcException({
+        statusCode: 404,
+        message: `Không tìm thấy đơn với id ${findOneOrderDto.id}`,
+      });
+    }
+    return this.mapToOrder(order);
+  }
+
   // Order item methods
   async createOrderItem(
     createOrderItemDto: Order.CreateOrderItemDto,

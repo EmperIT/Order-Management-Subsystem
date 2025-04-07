@@ -150,6 +150,8 @@ export interface OrderServiceClient {
 
   updateOrder(request: UpdateOrderDto): Observable<Order>;
 
+  removeOrder(request: FindOneOrderDto): Observable<Order>;
+
   /** OrderItem */
 
   createOrderItem(request: CreateOrderItemDto): Observable<OrderItem>;
@@ -190,6 +192,8 @@ export interface OrderServiceController {
 
   updateOrder(request: UpdateOrderDto): Promise<Order> | Observable<Order> | Order;
 
+  removeOrder(request: FindOneOrderDto): Promise<Order> | Observable<Order> | Order;
+
   /** OrderItem */
 
   createOrderItem(request: CreateOrderItemDto): Promise<OrderItem> | Observable<OrderItem> | OrderItem;
@@ -225,6 +229,7 @@ export function OrderServiceControllerMethods() {
       "findOneOrder",
       "findOrdersByTimeRange",
       "updateOrder",
+      "removeOrder",
       "createOrderItem",
       "findAllOrderItemsByOrderId",
       "findOneOrderItem",

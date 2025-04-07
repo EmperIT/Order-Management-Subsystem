@@ -37,6 +37,10 @@ export class OrderService implements OnModuleInit {
     return this.orderService.updateOrder({ id, ...updateData });
   }
 
+  removeOrder(id: string) {
+    return this.orderService.removeOrder({ id });
+  }
+
   createOrderItem(createOrderItemDto: Order.CreateOrderItemDto) {
     return this.orderService.createOrderItem(createOrderItemDto);
   }

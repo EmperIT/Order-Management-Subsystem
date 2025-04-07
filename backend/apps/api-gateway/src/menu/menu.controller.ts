@@ -65,10 +65,12 @@ export class MenuController {
     @Body() updateDishDto: any,
     @UploadedFile() file: Express.Multer.File,
   ): Promise<Observable<any>> {
-    const allowedExtensions = ['.webp', '.png', '.jpg', '.jpeg'];
-    const extension = file.originalname.match(/\.\w+$/);
-    if (!extension || !allowedExtensions.includes(extension[0])) {
-      throw new HttpException('Invalid file type', 400);
+    if (file) {
+      const allowedExtensions = ['.webp', '.png', '.jpg', '.jpeg'];
+      const extension = file.originalname.match(/\.\w+$/);
+      if (!extension || !allowedExtensions.includes(extension[0])) {
+        throw new HttpException('Invalid file type', 400);
+      }
     }
     return from(this.menuService.update(id, updateDishDto, file)).pipe(
       catchError((val) => {
@@ -85,16 +87,16 @@ export class MenuController {
       throw new HttpException(val.message, 400);
     }
   }
-  @Patch(':id/availability')
-  async updateAvailability(
-    @Param('id') id: string,
-    @Body() body: { isAvailable: boolean },
-  ): Promise<Observable<any>> {
-    return from(this.menuService.update(id, body)).pipe(
-      catchError((val) => {
-        throw new HttpException(val.message, 400);
-      }),
-    );
-  }
+  // @Patch(':id/availability')
+  // async updateAvailability(
+  //   @Param('id') id: string,
+  //   @Body() body: { isAvailable: boolean },
+  // ): Promise<Observable<any>> {
+  //   return from(this.menuService.update(id, body)).pipe(
+  //     catchError((val) => {
+  //       throw new HttpException(val.message, 400);
+  //     }),
+  //   );
+  // }
 }
 

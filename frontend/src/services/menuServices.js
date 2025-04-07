@@ -14,7 +14,7 @@ export const getMenuItems = async () => {
 export const updateMenuItemAvailability = async (id, isAvailable) => {
 
   try{
-    const response = await api.patch(`/menu/${id}/availability`, {
+    const response = await api.patch(`/menu/${id}`, {
     isAvailable: isAvailable
   });
   return response.data;

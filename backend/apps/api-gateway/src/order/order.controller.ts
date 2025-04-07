@@ -80,6 +80,15 @@ export class OrderController {
     );
   }
 
+  @Delete(':id')
+  removeOrder(@Param('id') id: string) {
+    return this.orderService.removeOrder(id).pipe(
+      catchError((val) => {
+        throw new HttpException(val.message, 400);
+      }),
+    );
+  }
+
   @Post('order-items')
   createOrderItem(@Body() createOrderItemDto: any) {
     return this.orderService.createOrderItem(createOrderItemDto).pipe(
