@@ -32,6 +32,16 @@ export class ShiftService {
   }
 
   async create(createShiftDto: Shift.CreateShiftDto): Promise<Shift.Shift> {
+    const conflictShift = await this.shiftModel.findOne({
+      startTime: { $lt: createShiftDto.endTime },
+      endTime: { $gt: createShiftDto.startTime },
+    }).exec();
+    if (conflictShift) {
+      throw new RpcException({
+        statusCode: 409,
+        message: 'Ca trực đã tồn tại trong khoảng thời gian này',
+      });
+    }
     const shift = new this.shiftModel({
       ...createShiftDto,
       isActive: true,

@@ -16,8 +16,7 @@ export const ShiftSchema = new Schema(
       },
       secretKey: { 
         type: String, 
-        required: true,
-        unique: true 
+        required: true
       },
       isActive: { 
         type: Boolean, 
