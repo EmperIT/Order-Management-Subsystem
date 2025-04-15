@@ -16,6 +16,10 @@ export const OrderSchema = new Schema(
       enum: ['in_progress', 'paid'],
       default: 'in_progress',
     },
+    paidAt: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,

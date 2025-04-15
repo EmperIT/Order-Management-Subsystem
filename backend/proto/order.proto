@@ -66,6 +66,7 @@ message Order {
   repeated OrderItem items = 3;
   double total = 4;
   string status = 5;
+  string paidAt = 8; // Thời điểm thanh toán
   string createdAt = 6;
   string updatedAt = 7;
 }

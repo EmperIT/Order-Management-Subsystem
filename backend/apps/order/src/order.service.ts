@@ -12,6 +12,7 @@ interface OrderDocument {
   items: OrderItemDocument[];
   total: number;
   status: string;
+  paidAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -110,15 +111,19 @@ export class OrderService {
 
   async findOrdersByTimeRange(FindOrdersByTimeRangeRequest: Order.FindOrdersByTimeRangeRequest): Promise<Order.FindOrdersByTimeRangeResponse> {
     const { startTime, endTime } = FindOrdersByTimeRangeRequest;
+    // Tìm các đơn đã được thanh toán trong khoảng thời gian đã cho
     const orders = await this.orderModel.find({
-      createdAt: { $gte: new Date(startTime), $lte: new Date(endTime) },
+      paidAt: { $gte: new Date(startTime), $lte: new Date(endTime) },
     }).exec();
+    
     const orderIds = orders.map((order) => order._id);
     const items = await this.orderItemModel
       .find({ orderId: { $in: orderIds } })
       .exec();
-    const total = await this.orderModel.countDocuments().exec();
+    
+    const total = orders.length;
     const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
+    
     return {
       orders: orders.map((order) =>
         this.mapToOrder(
@@ -143,6 +148,13 @@ export class OrderService {
         message: `Không tìm thấy đơn với id ${updateOrderDto.id}`,
       });
     }
+    
+    // Kiểm tra nếu đơn đang được thanh toán (chuyển từ in_progress sang paid)
+    if (updateOrderDto.status === 'paid' && order.status !== 'paid') {
+      // Cập nhật thời điểm thanh toán
+      updateOrderDto['paidAt'] = new Date();
+    }
+    
     Object.assign(order, {
       ...updateOrderDto,
       updatedAt: new Date(),
@@ -369,6 +381,7 @@ export class OrderService {
       items,
       total: order.total || 0,
       status: order.status,
+      paidAt: order.paidAt ? order.paidAt.toISOString() : '',
       createdAt: order.createdAt.toISOString(),
       updatedAt: order.updatedAt.toISOString(),
     };

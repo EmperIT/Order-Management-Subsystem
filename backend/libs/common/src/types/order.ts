@@ -51,6 +51,8 @@ export interface Order {
   items: OrderItem[];
   total: number;
   status: string;
+  /** Thời điểm thanh toán */
+  paidAt: string;
   createdAt: string;
   updatedAt: string;
 }
